@@ -1,4 +1,5 @@
-import Post from "../models/Post";
+import Post from "../models/Post.js";
+import User from "../models/User.js";
 const PostController = {};
 
 PostController.makePost = async (req, res) => {
@@ -7,29 +8,37 @@ PostController.makePost = async (req, res) => {
   try {
     const { title, description, user_id } = req.body;
 
-    const encryptedPassword = bcrypt.hashSync(password, 10);
-
-    const newUser = {
-      name: name,
-      email: email,
-      password: encryptedPassword,
-      birthday,
-      sex,
+    const newPost = {
+      title,
+      description,
+      user_id,
     };
 
-    await User.create(newUser);
+    const user = await User.findById({ _id: user_id });
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User doesn't exist",
+        error: error?.message || error,
+      });
+    }
+    const createdPost = await Post.create(newPost);
+    user.user_posts.push(createdPost._id);
+    await user.save();
+
+    await Post.create(newPost);
 
     return res.status(200).json({
       success: true,
-      message: "Create user successfully",
+      message: "Post created successfully",
     });
   } catch (error) {
     return res.status(500).json({
       success: false,
-      message: "Error creating user",
+      message: "Error creating post",
       error: error?.message || error,
     });
   }
 };
 
-export default LikesController;
+export default PostController;

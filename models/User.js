@@ -39,6 +39,10 @@ const UserSchema = new Schema(
       type: String,
       enum: ["male", "female", "other"],
     },
+    user_posts: {
+      type: Array,
+      default: [],
+    },
   },
   {
     timestamps: true,

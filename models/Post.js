@@ -9,9 +9,6 @@ const PostSchema = new Schema(
     description: {
       type: String,
       required: true,
-      unique: true,
-      lowercase: true,
-      match: /.+\@.+\..+/,
     },
     user_id: {
       type: String,

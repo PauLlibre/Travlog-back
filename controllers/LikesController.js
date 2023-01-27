@@ -9,13 +9,13 @@ LikesController.giveLike = async (req, res) => {
     // Find the user who is giving the like
     const user = await User.findById(req.body.id).select("-password");
     // Check if the post is already in the user_likes array
-    if (user.user_likes.indexOf(req.body.postId) !== -1) {
+    if (user.user_likes.indexOf(req.body.post_id) !== -1) {
       return res.status(400).json({ error: "You already liked this post" });
     }
     // Add the post ID to the user's user_likes array
-    user.user_likes.push(req.body.postId);
+    user.user_likes.push(req.body.user_id);
     // Save the updated user document
-    const updatedUser = await await user.save();
+    const updatedUser = await user.save();
     // Send a response to the client
     return res.json({ message: "Like added successfully!", data: updatedUser });
   } catch (error) {
