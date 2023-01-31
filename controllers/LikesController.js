@@ -3,7 +3,6 @@ import User from "../models/User.js";
 const LikesController = {};
 
 LikesController.giveLike = async (req, res) => {
-  console.log("hola");
   try {
     console.log(req);
     // Find the user who is giving the like

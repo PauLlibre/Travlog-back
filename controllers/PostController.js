@@ -3,8 +3,6 @@ import User from "../models/User.js";
 const PostController = {};
 
 PostController.makePost = async (req, res) => {
-  console.log("hola");
-
   try {
     const { title, description, user_id } = req.body;
 
