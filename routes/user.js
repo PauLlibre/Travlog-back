@@ -7,7 +7,7 @@ import verifyToken from "../middlewares/verifyToken.js";
 
 /* GET users listing. */
 router.get("/", verifyToken, isSuperAdmin, UserController.getAll);
-router.post("/:id", UserController.deleteById);
+router.delete("/:id", UserController.deleteById);
 router.get("/:id", UserController.getById);
 
 export default router;
