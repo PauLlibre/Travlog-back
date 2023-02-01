@@ -5,7 +5,6 @@ const verifyToken = (req, res, next) => {
     const { authorization } = req.headers;
 
     if (!authorization) {
-      console.log("hola");
       return res.status(401).json({
         success: false,
         message: "No authorization token was found",

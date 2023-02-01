@@ -1,4 +1,5 @@
 import User from "../models/User.js";
+import bcrypt from "bcrypt";
 
 const UserController = {};
 
@@ -66,6 +67,48 @@ UserController.getById = async (req, res) => {
       success: false,
       message: "Internal server error",
     });
+  }
+};
+
+UserController.modifyById = async (req, res) => {
+  try {
+    const id = req.params.id;
+    let { name, email, password } = req.body;
+
+    const user = await User.findById({ _id: id });
+
+    if (!user) {
+      return res.status(404).json({
+        success: "false",
+        message: "User not found",
+      });
+    }
+    if (password) {
+      if (password.length < 6) {
+        return res.status(500).json({
+          success: false,
+          message: "Password is shorter than 6 characters",
+        });
+      }
+      password = bcrypt.hashSync(password, 10);
+    } else {
+      password = false;
+    }
+
+    user.name = name || user.name;
+    user.email = email || user.email;
+    user.password = password || user.password;
+
+    const updated_user = await user.save();
+
+    return res.status(200).json({
+      success: "true",
+      message: "User data updated successfully",
+      data: updated_user,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "Internal server error" });
   }
 };
 

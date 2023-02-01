@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import db from "../config/database.js";
 
 import User from "../models/User.js";
 

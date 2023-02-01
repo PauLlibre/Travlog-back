@@ -9,5 +9,6 @@ import verifyToken from "../middlewares/verifyToken.js";
 router.get("/", verifyToken, isSuperAdmin, UserController.getAll);
 router.delete("/:id", UserController.deleteById);
 router.get("/:id", UserController.getById);
+router.patch("/:id", UserController.modifyById);
 
 export default router;
