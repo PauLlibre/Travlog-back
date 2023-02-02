@@ -12,5 +12,6 @@ router.patch("/:id", RouteController.updateById);
 router.get("/user/:id", RouteController.getByUserId);
 router.post("/:route_id/user/:user_id", CommentsController.makeRoutesComment);
 router.post("/:route_id/like", RatingsController.rateRoute);
+router.get("/search/:city", RouteController.searchRoute);
 
 export default router;

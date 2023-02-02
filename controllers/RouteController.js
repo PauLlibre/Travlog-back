@@ -1,16 +1,18 @@
 import Route from "../models/Route.js";
 import User from "../models/User.js";
+
 const RouteController = {};
 
 RouteController.makeRoute = async (req, res) => {
   try {
-    const { title, description, user_id, map } = req.body;
+    const { title, description, user_id, map, city } = req.body;
 
     const newRoute = {
       title,
       description,
       user_id,
       map,
+      city,
     };
 
     const user = await User.findById({ _id: user_id });
@@ -147,5 +149,31 @@ RouteController.updateById = async (req, res) => {
     });
   }
 };
+
+RouteController.searchRoute = async (req, res) => {
+  try {
+    const city = req.query.city;
+    console.log(city);
+    const routes = await Route.find({});
+    const filteredRoutes = routes.filter((route) => {
+      return route.city.toLowerCase().includes(city.toLowerCase());
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: "Routes retrieved successfully",
+      data: filteredRoutes,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error",
+      error: error?.message || error,
+    });
+  }
+};
+
+
 
 export default RouteController;

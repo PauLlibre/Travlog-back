@@ -20,6 +20,10 @@ const PostSchema = new Schema(
     likes: {
       type: Array,
     },
+    rating: {
+      type: Number,
+      default: 0,
+    },
   },
   {
     timestamps: true,

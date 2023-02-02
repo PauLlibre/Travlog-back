@@ -27,6 +27,10 @@ const RouteSchema = new Schema(
       type: Number,
       default: 0,
     },
+    city: {
+      type: String,
+      required: true,
+    },
     map: {
       type: String,
       required: true,

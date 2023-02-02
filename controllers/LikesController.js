@@ -23,8 +23,10 @@ LikesController.giveLike = async (req, res) => {
       );
       const post = await Post.findById(req.body.post_id);
       post.likes = post.likes.filter((likeId) => likeId !== req.body.id);
+      post.rating -= 1;
       const updatedUser = await user.save();
       const updatedPost = await post.save();
+
       return res.json({
         message: "Like removed successfully!",
         user_data: updatedUser,
@@ -39,6 +41,7 @@ LikesController.giveLike = async (req, res) => {
     // Add the post ID to the user's user_likes array
     user.user_likes.push(req.body.post_id);
     post.likes.push(req.body.id);
+    post.rating += 1;
     // Save the updated user document
     const updatedUser = await user.save();
     const updatedPost = await post.save();
