@@ -1,15 +1,16 @@
-import Post from "../models/Post.js";
+import Route from "../models/Route.js";
 import User from "../models/User.js";
-const PostController = {};
+const RouteController = {};
 
-PostController.makePost = async (req, res) => {
+RouteController.makeRoute = async (req, res) => {
   try {
-    const { title, description, user_id } = req.body;
+    const { title, description, user_id, map } = req.body;
 
-    const newPost = {
+    const newRoute = {
       title,
       description,
       user_id,
+      map,
     };
 
     const user = await User.findById({ _id: user_id });
@@ -20,37 +21,37 @@ PostController.makePost = async (req, res) => {
         error: error?.message || error,
       });
     }
-    const createdPost = await Post.create(newPost);
+    const createdRoute = await Route.create(newRoute);
 
     return res.status(200).json({
       success: true,
-      message: "Post created successfully",
-      data: createdPost,
+      message: "Route created successfully",
+      data: createdRoute,
     });
   } catch (error) {
     return res.status(500).json({
       success: false,
-      message: "Error creating post",
+      message: "Error creating route",
       error: error?.message || error,
     });
   }
 };
 
-PostController.getById = async (req, res) => {
+RouteController.getById = async (req, res) => {
   try {
     const id = req.params.id;
 
-    const post = await Post.findOne({ _id: id });
-    if (!post) {
+    const route = await Route.findOne({ _id: id });
+    if (!route) {
       return res.status(404).json({
         success: false,
-        message: "Post not found",
+        message: "Route not found",
       });
     }
     return res.status(200).json({
       success: true,
-      message: "Post Data Retrieved Successfully",
-      data: post,
+      message: "Route Data Retrieved Successfully",
+      data: route,
     });
   } catch (error) {
     return res.status(500).json({
@@ -60,12 +61,35 @@ PostController.getById = async (req, res) => {
   }
 };
 
-PostController.getByUserId = async (req, res) => {
+RouteController.deleteById = async (req, res) => {
   try {
     const id = req.params.id;
 
-    const post = await Post.find({ user_id: id });
-    if (!post) {
+    const route = await Route.findOneAndDelete({ _id: id });
+    if (!route) {
+      return res.status(404).json({
+        success: false,
+        message: "Route not found",
+      });
+    }
+    return res.status(200).json({
+      success: true,
+      message: "Route deleted Successfully",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error",
+    });
+  }
+};
+
+RouteController.getByUserId = async (req, res) => {
+  try {
+    const id = req.params.id;
+
+    const route = await Route.find({ user_id: id });
+    if (!route) {
       return res.status(404).json({
         success: false,
         message: "User not found",
@@ -73,8 +97,8 @@ PostController.getByUserId = async (req, res) => {
     }
     return res.status(200).json({
       success: true,
-      message: "Post Data Retrieved Successfully",
-      data: post,
+      message: "Route Data Retrieved Successfully",
+      data: route,
     });
   } catch (error) {
     return res.status(500).json({
@@ -84,46 +108,21 @@ PostController.getByUserId = async (req, res) => {
   }
 };
 
-PostController.deleteById = async (req, res) => {
+RouteController.updateById = async (req, res) => {
   try {
     const id = req.params.id;
-
-    const post = await Post.findOneAndDelete({ _id: id });
-    if (!post) {
+    const { title, description, user_id, map } = req.body;
+    const route = await Route.findOne({ _id: id });
+    if (!route) {
       return res.status(404).json({
         success: false,
-        message: "Post not found",
+        message: "Route not found",
       });
     }
-    return res.status(200).json({
-      success: true,
-      message: "Post deleted Successfully",
-    });
-  } catch (error) {
-    return res.status(500).json({
-      success: false,
-      message: "Internal server error",
-    });
-  }
-};
-
-PostController.updateById = async (req, res) => {
-  try {
-    const id = req.params.id;
-    const { title, description, user_id } = req.body;
-
-    const post = await Post.findOne({ _id: id });
-    if (!post) {
-      return res.status(404).json({
-        success: false,
-        message: "Post not found",
-      });
-    }
-
     const { role } = await User.findOne({ _id: user_id });
     console.log(role);
     if (role !== "admin") {
-      if (post.user_id.toString() !== user_id.toString()) {
+      if (route.user_id.toString() !== user_id.toString()) {
         return res.status(401).json({
           success: false,
           message: "Unauthorized access",
@@ -131,14 +130,15 @@ PostController.updateById = async (req, res) => {
       }
     }
 
-    post.title = title;
-    post.description = description;
-    await post.save();
+    route.title = title || route.title;
+    route.description = description || route.description;
+    route.map = map || route.map;
+    await route.save();
 
     return res.status(200).json({
       success: true,
-      message: "Post updated successfully",
-      data: post,
+      message: "Route updated successfully",
+      data: route,
     });
   } catch (error) {
     return res.status(500).json({
@@ -148,4 +148,4 @@ PostController.updateById = async (req, res) => {
   }
 };
 
-export default PostController;
+export default RouteController;

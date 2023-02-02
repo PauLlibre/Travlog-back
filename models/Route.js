@@ -1,4 +1,6 @@
 import { Schema, model } from "mongoose";
+import Comment from "./Comment.js";
+const CommentSchema = Comment.schema;
 
 const RouteSchema = new Schema(
   {
@@ -14,15 +16,26 @@ const RouteSchema = new Schema(
       type: String,
       required: true,
     },
-    comments: {
+    comments: [CommentSchema],
+    upvotes: {
       type: Array,
     },
-    likes: {
+    downvotes: {
       type: Array,
+    },
+    rating: {
+      type: Number,
+      default: 0,
     },
     map: {
       type: String,
       required: true,
+      validate: {
+        validator: function (value) {
+          return /^(https?:\/\/)/.test(value);
+        },
+        message: "{VALUE} is not a valid URL!",
+      },
     },
   },
   {

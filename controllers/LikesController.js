@@ -8,7 +8,15 @@ LikesController.giveLike = async (req, res) => {
     // Find the user who is giving the like
     const user = await User.findById(req.body.id).select("-password");
 
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
     // Check if the user already liked the post, and removing his like
+
     if (user.user_likes.includes(req.body.post_id)) {
       user.user_likes = user.user_likes.filter(
         (like) => like !== req.body.post_id
