@@ -41,6 +41,16 @@ const RouteSchema = new Schema(
         message: "{VALUE} is not a valid URL!",
       },
     },
+    route_description: {
+      type: Array,
+      required: true,
+    },
+    duration: {
+      type: Number,
+    },
+    distance: {
+      type: Number,
+    },
   },
   {
     timestamps: true,

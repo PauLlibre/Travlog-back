@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import bcrypt from "bcrypt";
 
 import User from "../models/User.js";
 
@@ -12,7 +13,7 @@ const users = [
   {
     name: "John Smith",
     email: "johnsmith@example.com",
-    password: "abcd1234",
+    password: bcrypt.hashSync("abcd1234", 10),
     birthday: "1990-01-01",
     sex: "male",
     nationality: "American",
@@ -20,7 +21,7 @@ const users = [
   {
     name: "Jane Doe",
     email: "janedoe@example.com",
-    password: "abcd1234",
+    password: bcrypt.hashSync("abcd1234", 10),
     birthday: "1985-05-12",
     sex: "female",
     nationality: "Canadian",
@@ -28,7 +29,7 @@ const users = [
   {
     name: "Bob Johnson",
     email: "bobjohnson@example.com",
-    password: "abcd1234",
+    password: bcrypt.hashSync("abcd1234", 10),
     birthday: "1980-07-28",
     sex: "male",
     nationality: "British",
@@ -36,7 +37,7 @@ const users = [
   {
     name: "Emma Williams",
     email: "emmawilliams@example.com",
-    password: "abcd1234",
+    password: bcrypt.hashSync("abcd1234", 10),
     birthday: "1995-03-02",
     sex: "female",
     nationality: "Australian",
@@ -44,7 +45,7 @@ const users = [
   {
     name: "Michael Brown",
     email: "michaelbrown@example.com",
-    password: "abcd1234",
+    password: bcrypt.hashSync("abcd1234", 10),
     birthday: "1988-06-20",
     sex: "male",
     nationality: "French",
@@ -52,7 +53,7 @@ const users = [
   {
     name: "Emily Davis",
     email: "emilydavis@example.com",
-    password: "abcd1234",
+    password: bcrypt.hashSync("abcd1234", 10),
     birthday: "1992-09-15",
     sex: "female",
     nationality: "German",
@@ -60,7 +61,7 @@ const users = [
   {
     name: "Jacob Miller",
     email: "jacobmiller@example.com",
-    password: "abcd1234",
+    password: bcrypt.hashSync("abcd1234", 10),
     birthday: "1986-11-05",
     sex: "male",
     nationality: "Italian",
@@ -68,7 +69,7 @@ const users = [
   {
     name: "Amanda Wilson",
     email: "amandawilson@example.com",
-    password: "abcd1234",
+    password: bcrypt.hashSync("abcd1234", 10),
     birthday: "1990-02-12",
     sex: "female",
     nationality: "Spanish",
@@ -76,7 +77,7 @@ const users = [
   {
     name: "Joshua Moore",
     email: "joshuamoore@example.com",
-    password: "abcd1234",
+    password: bcrypt.hashSync("abcd1234", 10),
     birthday: "1989-04-22",
     sex: "male",
     nationality: "Mexican",
@@ -84,7 +85,7 @@ const users = [
   {
     name: "Ashley Taylor",
     email: "ashleytaylor@example.com",
-    password: "abcd1234",
+    password: bcrypt.hashSync("abcd1234", 10),
     birthday: "1991-08-17",
     sex: "female",
     nationality: "French",

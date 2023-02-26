@@ -5,7 +5,16 @@ const RouteController = {};
 
 RouteController.makeRoute = async (req, res) => {
   try {
-    const { title, description, user_id, map, city } = req.body;
+    const {
+      title,
+      description,
+      user_id,
+      map,
+      city,
+      route_description,
+      duration,
+      distance,
+    } = req.body;
 
     const newRoute = {
       title,
@@ -13,6 +22,9 @@ RouteController.makeRoute = async (req, res) => {
       user_id,
       map,
       city,
+      route_description,
+      duration,
+      distance,
     };
 
     const user = await User.findById({ _id: user_id });
@@ -173,7 +185,5 @@ RouteController.searchRoute = async (req, res) => {
     });
   }
 };
-
-
 
 export default RouteController;

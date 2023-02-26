@@ -16,12 +16,17 @@ const verifyToken = (req, res, next) => {
     var decoded = jwt.verify(token, process.env.JWT_SECRET);
 
     // pasar datos a la siguiente funcion
+    // #TODO
     req.user_id = decoded.user_id;
     req.user_role = decoded.user_role;
 
     next();
   } catch (error) {
-    console.log(error);
+    return res.status(401).json({
+      success: false,
+      message: "Internal server error, token not valid",
+      error: error.message,
+    });
   }
 };
 

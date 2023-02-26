@@ -39,6 +39,9 @@ const UserSchema = new Schema(
       type: String,
       enum: ["male", "female", "other"],
     },
+    nationality: {
+      type: String,
+    },
   },
   {
     timestamps: true,

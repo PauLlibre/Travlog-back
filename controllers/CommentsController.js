@@ -23,25 +23,39 @@ CommentsController.makeRoutesComment = async (req, res) => {
       });
     }
 
-    const route = await Route.findById({ _id: route_id });
+    let route = await Route.findById({ _id: route_id });
+    let post;
     if (!route) {
-      return res.status(404).json({
-        success: false,
-        message: "Post doesn't exist",
-        error: error?.message || error,
-      });
+      post = await Post.findById({ _id: route_id });
+      if (!post) {
+        return res.status(404).json({
+          success: false,
+          message: "Route/Post doesn't exist",
+        });
+      }
     }
 
-    let comment = await Route.findOneAndUpdate(
-      { _id: route_id },
-      {
-        $push: {
-          comments: newComment,
-        },
-      }
-    );
-
-    comment = await comment.save();
+    if (route) {
+      route = await Route.findOneAndUpdate(
+        { _id: route_id },
+        {
+          $push: {
+            comments: newComment,
+          },
+        }
+      );
+      route = await route.save();
+    } else if (post) {
+      post = await Post.findOneAndUpdate(
+        { _id: route_id },
+        {
+          $push: {
+            comments: newComment,
+          },
+        }
+      );
+      post = await post.save();
+    }
 
     return res.status(200).json({
       success: true,

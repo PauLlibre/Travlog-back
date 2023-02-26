@@ -25,6 +25,7 @@ UserController.getAll = async (req, res) => {
 UserController.deleteById = async (req, res) => {
   try {
     const id = req.params.id;
+    //TODO NO PERMITIR ELIMINAR ADMIN USERS
 
     const users = await User.findByIdAndDelete({ _id: id });
     if (!users) {
@@ -100,7 +101,7 @@ UserController.modifyById = async (req, res) => {
     user.password = password || user.password;
 
     const updated_user = await user.save();
-
+    console.log(updated_user);
     return res.status(200).json({
       success: "true",
       message: "User data updated successfully",

@@ -1,4 +1,6 @@
 import { Schema, model } from "mongoose";
+import Comment from "./Comment.js";
+const CommentSchema = Comment.schema;
 
 const PostSchema = new Schema(
   {
@@ -14,9 +16,8 @@ const PostSchema = new Schema(
       type: String,
       required: true,
     },
-    comments: {
-      type: Array,
-    },
+    comments: [CommentSchema],
+
     likes: {
       type: Array,
     },
